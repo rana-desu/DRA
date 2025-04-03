@@ -1,12 +1,10 @@
-# Resource Allocation Tool
+# Disaster Resource Allocation Tool
 
 An intelligent resource allocation tool that prioritized distribution of relief supplies based on real-time needs accessed via crowdsourced data.
 
 > This resource allocation tool primarily concerns with the disasters people face in india. [subject-to-change]
-> 
 
 ## Crowdsourced Data
-
 1. ### Data Collection Sources
     1. A user-interface like website or mobile apps.
     2. Newschannels (RSS Feed).
@@ -14,18 +12,53 @@ An intelligent resource allocation tool that prioritized distribution of relief 
 
 2. ### Data Categories
     0. Type of disaster
-        0.1 Pre-defined precautions.
-        0.2 Rescue & Resource type.
+        1. Pre-defined precautions.
+        2. Rescue & Resource type.
     1. Number of people stuck in disaster.
-        1.1 Amount
-        1.2 Location/Coords
+        1. Amount
+        2. Location/Coords
     2. On basis of injury.
-        2.1 Type of injury caused
-        2.2 Amount
+        1. Type of injury caused
+        2. Amount
     3. Categories of people (priority-based).
-    
-    
 
-## Classification of Disasters
+## Classification
+### Resources
+1. Food support.
+2. Medical support.
+3. Emergency evacuation.
 
-## Classification of Relief Supplies
+### Disasters
+1. Heavy Rainfalls -> Floods.
+2. Strong Winds & Heavy Rainfalls -> Cyclones.
+3. Landslides.
+4. Heatwaves.
+5. Earthquakes.
+6. Heavy Snowfalls.
+7. Forest Fires.
+
+## Generalised Priority Calculation (independent of disaster types)
+### Factors
+1. Food Supply
+    > Decides ow many people are currently surviving and to whom the food should be supplied.
+    1. Number of Days
+    Threshold: If starving for 3+ days, then food delivery is a MUST/mandatory.
+    2. Number of People
+    Threshold: Availaibility of ration resources.
+    3. Type of people (Child, Older Citizens, Adult)
+    3. Location from base to affected location.
+    example: 
+    - Considering 2 people starving for 5-7 days, and 10 people starving for 1-2 days: 2 people gets priority.
+    
+2. 
+
+## Implementation
+### BACKEND
+1. Integrate INSAT-3D weather data + NDMA risk maps.
+2. Use crowdsourced reports (e.g., MyGov Sahyog app).
+3. Prioritize responses via severity scores (floods > heatwaves > pollution).
+4. Data filtering.
+
+### UI/UX
+1. Person data gathering.
+    1. Single and Multi, both.

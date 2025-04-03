@@ -38,19 +38,20 @@ An intelligent resource allocation tool that prioritizes distribution of relief 
 7. Forest Fires.
 
 ## Generalised Priority Calculation (independent of disaster types)
-### Factors
-1. Food Supply
-    > Decides on many people are currently surviving and to whom the food should be supplied.
-    1. Number of Days:
-        Threshold: If starving for 3+ days, then food delivery is a MUST/mandatory.
-    2. Number of People
+### Class Models
+1. Food Supply Prioritization: `starvation_priority()` <br>
+Makes decision about how many people are currently surviving and to whom the food should be supplied.
+    1. Number of Days <br>
+    Threshold: If starving for 3+ days, then food delivery is a MUST/mandatory.
+    2. Number of People <br>
     Threshold: Availaibility of ration resources.
     3. Type of people (Child, Older Citizens, Adult)
-    3. Location from base to affected location.
-    example: 
-    - Considering 2 people starving for 5-7 days, and 10 people starving for 1-2 days: 2 people gets priority.
+    3. Location from base to affected location. <br>
+    example: <br>
+    Considering 2 people starving for 5-7 days, and 10 people starving for 1-2 days: 2 people gets priority.
     
-2. 
+2. Medical Support Prioritization: `medical_priority()`
+3. Evacuation Prioritization: `evacuation_priority()`
 
 ## Implementation
 ### BACKEND

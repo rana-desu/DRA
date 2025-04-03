@@ -1,6 +1,6 @@
 # Disaster Resource Allocation Tool
 
-An intelligent resource allocation tool that prioritized distribution of relief supplies based on real-time needs accessed via crowdsourced data.
+An intelligent resource allocation tool that prioritizes distribution of relief supplies based on real-time needs accessed via crowdsourced data.
 
 > This resource allocation tool primarily concerns with the disasters people face in india. [subject-to-change]
 
@@ -11,16 +11,16 @@ An intelligent resource allocation tool that prioritized distribution of relief 
     3. Scouting helicopters with a pre-established channel.
 
 2. ### Data Categories
-    0. Type of disaster
+    1. Type of disaster
         1. Pre-defined precautions.
         2. Rescue & Resource type.
-    1. Number of people stuck in disaster.
+    2. Number of people stuck in disaster.
         1. Amount
         2. Location/Coords
-    2. On basis of injury.
+    3. On basis of injury.
         1. Type of injury caused
         2. Amount
-    3. Categories of people (priority-based).
+    4. Categories of people (priority-based).
 
 ## Classification
 ### Resources
@@ -40,9 +40,9 @@ An intelligent resource allocation tool that prioritized distribution of relief 
 ## Generalised Priority Calculation (independent of disaster types)
 ### Factors
 1. Food Supply
-    > Decides ow many people are currently surviving and to whom the food should be supplied.
-    1. Number of Days
-    Threshold: If starving for 3+ days, then food delivery is a MUST/mandatory.
+    > Decides on many people are currently surviving and to whom the food should be supplied.
+    1. Number of Days:
+        Threshold: If starving for 3+ days, then food delivery is a MUST/mandatory.
     2. Number of People
     Threshold: Availaibility of ration resources.
     3. Type of people (Child, Older Citizens, Adult)

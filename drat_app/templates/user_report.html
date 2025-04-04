@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="navbar">DRAT</nav>
+    
+<form id="userReportForm" method="POST" action="{{ url_for('reports.user_report_form') }}" class="form-container">
+    {{ form.hidden_tag() }}  <!-- CSRF Token (Critical for security) -->
+
+    <div class="form-section">
+        <!-- Location Field -->
+        <div class="location-group">
+            {{ form.location(
+                class="form-control",
+                placeholder="Enter location",
+                id="location"
+            ) }}
+            <button type="button" onclick="getLocation()">📍 Current</button>
+            {% if form.location.errors %}
+                <div class="error">{{ form.location.errors[0] }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Injury Type Dropdown -->
+        <div class="form-group">
+            <select id="injuries" name="injury" class="form-control">
+                <option value="" disabled {% if not form.injury.data %}selected{% endif %}>Select injury type</option>
+                {% for value, label in form.injury.choices %}
+                    {% if value %}  {# Skip the empty default option since we added it manually #}
+                    <option value="{{ value }}" {% if form.injury.data == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            {% if form.injury.errors %}
+                <div class="error">{{ form.injury.errors[0] }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Starvation Inputs -->
+        <div class="starvation-group">
+            {{ form.food(
+                type="number",
+                placeholder="Hours without food",
+                id="food",
+                class="form-control",
+                oninput="if (this.value < 0) this.value = 0"
+            ) }}
+            {{ form.water(
+                type="number",
+                placeholder="Hours without water",
+                id="water",
+                class="form-control",
+                oninput="if (this.value < 0) this.value = 0"
+            ) }}
+            {% if form.food.errors or form.water.errors %}
+                <div class="error">
+                    {{ form.food.errors[0] or form.water.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Age Buttons (Fixed Version) -->
+        <div class="age-buttons">
+            {% for value, label in [('child', 'Child'), ('adult', 'Adult'), ('senior', 'Senior')] %}
+                <button 
+                    type="button"
+                    class="age-btn {% if form.age_group.data == value %}active{% endif %}"
+                    onclick="toggleAge(this, '{{ value }}')"
+                    data-value="{{ value }}"
+                >
+                    {{ label }}
+                </button>
+            {% endfor %}
+            <select id="age_group" name="age_group" style="display: none;">
+                <option value="">Select Age Group</option>
+                {% for value, label in [('child', 'Child'), ('adult', 'Adult'), ('senior', 'Senior')] %}
+                    <option value="{{ value }}" {% if form.age_group.data == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if form.age_group.errors %}
+            <div class="error">{{ form.age_group.errors[0] }}</div>
+        {% endif %}
+
+        <!-- Pregnant Toggle -->
+        <div class="toggle-switch">
+            <span>Pregnant?</span>
+            <label class="switch">
+                {{ form.pregnant(id="pregnant") }}
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <!-- Optional Fields -->
+        <div class="optional-section">
+            <div class="optional-field">
+                {{ form.mobile(
+                    type="tel",
+                    placeholder="Mobile number (optional)",
+                    class="form-control"
+                ) }}
+            </div>
+            <select id="gender" name="gender" class="form-control">
+                <option value="" {% if not form.gender.data %}selected{% endif %}>Gender (optional)</option>
+                {% for value, label in form.gender.choices %}
+                    {% if value %}  {# Skip empty value if present #}
+                    <option value="{{ value }}" {% if form.gender.data == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+</form>
+
+<div class="fixed-buttons">
+    <button onclick="addPerson()" style="background: #3498db; color: white;">➕ Add Person</button>
+    {{ form.submit(class="report-submit") }}
+</div>
+{% endblock content %}

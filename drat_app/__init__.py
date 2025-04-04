@@ -10,6 +10,9 @@ def create_app():
     from .blueprints import home
     home.register(app)
 
+    from .blueprints import reports
+    reports.register(app)
+
     from flask_wtf.csrf import CSRFProtect
     csrf = CSRFProtect(app)
 

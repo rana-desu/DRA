@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRAT - Disaster Relief Allocation Tool</title>
+    <style>
+        /* Combined CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #e74c3c;
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Homepage Styles */
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            min-height: calc(100vh - 120px);
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        p {
+            color: #7f8c8d;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .btn-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .btn {
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Form Page Styles */
+        .form-container {
+            padding: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            display: none; /* Hidden by default */
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .location-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .location-group button {
+            width: auto;
+            padding: 12px 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+        }
+
+        .age-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 1rem 0;
+        }
+
+        .age-btn {
+            padding: 12px;
+            border: 2px solid #3498db;
+            background: none;
+            border-radius: 25px;
+            color: #3498db;
+            cursor: pointer;
+        }
+
+        .age-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 1rem 0;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #27ae60;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .fixed-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            display: none; /* Hidden by default */
+        }
+
+        .fixed-buttons button {
+            flex: 1;
+        }
+
+        .news-section {
+            padding: 1rem;
+            display: none; /* Hidden by default */
+        }
+
+        .news-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: #2c3e50;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .news-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .expanded .news-content {
+            max-height: 500px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #95a5a6;
+            font-size: 0.9rem;
+            display: none; /* Hidden by default */
+        }
+
+        .back-btn {
+            display: none; /* Hidden by default */
+            margin: 1rem;
+            padding: 0.5rem 1rem;
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">DRAT</nav>
+
+    <!-- Back button (shown only on form pages) -->
+    <button class="back-btn" onclick="showHomepage()">← Back to Home</button>
+
+    <!-- Homepage Content -->
+    <div id="homepage" class="home-container">
+        <div class="logo">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="45" fill="#e74c3c"/>
+                <path d="M30,30 L70,30 L70,70 L30,70 Z" fill="white"/>
+                <path d="M40,40 L60,40 L60,60 L40,60 Z" fill="#e74c3c"/>
+            </svg>
+        </div>
+        
+        <h1>Disaster Relief Allocation Tool</h1>
+        <p>Select your reporting method below to help us allocate resources effectively during emergencies.</p>
+        
+        <div class="btn-container">
+            <button onclick="showForm('auth')" class="btn btn-primary">Authorized Personnel Report</button>
+            <button onclick="showForm('user')" class="btn btn-secondary">Civilian Report</button>
+        </div>
+    </div>
+
+    <!-- Form Content (hidden by default) -->
+    <div id="form-page" class="form-container">
+        <div class="form-section">
+            <div class="location-group">
+                <input type="text" placeholder="Enter location" id="location">
+                <button onclick="getLocation()">📍 Current</button>
+            </div>
+            
+            <select id="injuries">
+                <option value="">Select injury type</option>
+                <option>Minute cuts</option>
+                <option>Muscle tear</option>
+                <option>Bone fracture</option>
+                <option>Rotten wounds</option>
+                <option>Heavy blood loss</option>
+                <option>Unable to move</option>
+            </select>
+
+            <div class="starvation-group">
+                <input type="number" placeholder="Hours without food" id="food">
+                <input type="number" placeholder="Hours without water" id="water">
+            </div>
+
+            <div class="age-buttons">
+                <button class="age-btn" onclick="toggleAge(this)" data-value="0-16">0-16</button>
+                <button class="age-btn" onclick="toggleAge(this)" data-value="17-60">17-60</button>
+                <button class="age-btn" onclick="toggleAge(this)" data-value="61+">61+</button>
+            </div>
+
+            <div class="toggle-switch">
+                <span>Pregnant?</span>
+                <label class="switch">
+                    <input type="checkbox" id="pregnant">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="optional-section">
+                <div class="optional-field">
+                    <input type="tel" placeholder="Mobile number (optional)">
+                </div>
+                <select id="gender">
+                    <option value="">Gender (optional)</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                    <option>Prefer not to say</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-buttons">
+        <button onclick="addPerson()" style="background: #3498db; color: white;">➕ Add Person</button>
+        <button onclick="submitForm()" style="background: #27ae60; color: white;">🚨 Submit</button>
+    </div>
+
+    <div class="news-section">
+        <div class="news-toggle" onclick="toggleNews()">
+            <span>Latest Updates</span>
+            <span class="chevron">▼</span>
+        </div>
+        <div class="news-content">
+            <!-- News items would be loaded here -->
+        </div>
+    </div>
+
+    <footer>
+        © 2023 DRAT - Disaster Relief Allocation Tool
+    </footer>
+
+    <script>
+        // Navigation functions
+        function showForm(formType) {
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('form-page').style.display = 'block';
+            document.querySelector('.fixed-buttons').style.display = 'flex';
+            document.querySelector('.news-section').style.display = 'block';
+            document.querySelector('.back-btn').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+            
+            // In a real app, you would load different forms based on formType
+            // For now we're using the same form for both
+        }
+
+        function showHomepage() {
+            document.getElementById('homepage').style.display = 'flex';
+            document.getElementById('form-page

@@ -13,7 +13,7 @@ from wtforms.validators import (
     NumberRange,
 )
 
-class ReportForm(FlaskForm):
+class UserReportForm(FlaskForm):
     location = StringField(
         "Location",
         validators=[
